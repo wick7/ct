@@ -11,12 +11,13 @@ class TaskController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'party' => 'required|max:500'
+            'product' => 'required|max:500'
         ]);
         return Task::create([
-        'party' => request('party'),
-        'size' => request('size'),
-        'phone' => request('phone')
+        'product' => request('product'),
+        'quantity' => request('quantity'),
+        'price' => request('price'),
+        'total' => request('total'),
       ]);
     }
     public function destroy($id)

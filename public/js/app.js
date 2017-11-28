@@ -16949,7 +16949,7 @@ Vue.use(__webpack_require__(157));
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component('task-list', __webpack_require__(159));
+Vue.component('product-list', __webpack_require__(159));
 
 var app = new Vue({
   el: '#app'
@@ -58922,9 +58922,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-344b3a0d", Component.options)
+    hotAPI.createRecord("data-v-5ee2bfe3", Component.options)
   } else {
-    hotAPI.reload("data-v-344b3a0d", Component.options)
+    hotAPI.reload("data-v-5ee2bfe3", Component.options)
 ' + '  }
   module.hot.dispose(function (data) {
     disposed = true
@@ -59117,23 +59117,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
+            final: 0,
             search: '',
             list: [],
             task: {
-                party: '',
-                size: '',
-                phone: '',
+                product: '',
+                quantity: '',
+                price: '',
+                total: '',
                 created_at: 0
             }
         };
@@ -59144,31 +59139,23 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
     methods: {
-
-        //   searchIt() {
-        //     axios.get('api/tasks').then((res) => {
-        //       for (var i of res.data) {
-        //         var players = i;
-        //         console.log(players);
-        //       }
-        //     });
-        // },
-
         fetchIt: function fetchIt() {
             var _this = this;
 
             axios.get('api/tasks').then(function (res) {
                 _this.list = res.data;
+
                 console.log('Fired');
             });
         },
         addIt: function addIt() {
             var _this2 = this;
 
-            axios.post('api/tasks', this.task).then(function (res) {
-                _this2.task.party = '';
-                _this2.task.size = '';
-                _this2.task.phone = '';
+            axios.post('api/tasks', this.task, this.task.total = this.task.quantity * this.task.price).then(function (res) {
+                _this2.task.product = '';
+                _this2.task.quantity = '';
+                _this2.task.price = '';
+                _this2.task.total = '';
                 _this2.fetchIt();
             }).catch(function (err) {
                 return console.error(err);
@@ -59189,7 +59176,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _this4 = this;
 
             return this.list.filter(function (task) {
-                return task.party.toLowerCase().match(_this4.search.toLowerCase());
+                return task.product.toLowerCase().match(_this4.search.toLowerCase());
             });
         }
     }
@@ -59204,301 +59191,301 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c("div", { staticClass: "container main" }, [
-      _c(
-        "form",
-        {
-          attrs: { action: "#" },
-          on: {
-            submit: function($event) {
-              $event.preventDefault()
-              _vm.addIt()
+    _c(
+      "div",
+      {
+        staticClass: "container main",
+        staticStyle: { "margin-bottom": "15em" }
+      },
+      [
+        _c(
+          "form",
+          {
+            attrs: { action: "#" },
+            on: {
+              submit: function($event) {
+                $event.preventDefault()
+                _vm.addIt()
+              }
             }
-          }
-        },
-        [
-          _c("div", { staticClass: "row" }, [
-            _c("div", { staticClass: "col-md-12 col-xs-12" }, [
-              _c(
-                "label",
-                {
-                  staticClass: "col-2 col-form-label",
-                  attrs: { for: "party" }
-                },
-                [_vm._v("Party Name:")]
-              ),
-              _vm._v(" "),
-              _c("input", {
-                directives: [
+          },
+          [
+            _c("div", { staticClass: "row" }, [
+              _c("div", { staticClass: "col-md-12 col-xs-12" }, [
+                _c(
+                  "label",
                   {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.task.party,
-                    expression: "task.party"
-                  }
-                ],
-                staticClass: "form-control",
-                staticStyle: { "text-transform": "capitalize" },
-                attrs: {
-                  type: "text",
-                  placeholder: "Enter Party Name",
-                  autofocus: ""
-                },
-                domProps: { value: _vm.task.party },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(_vm.task, "party", $event.target.value)
-                  }
-                }
-              })
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "row" }, [
-            _c("div", { staticClass: "col-md-12 col-xs-12" }, [
-              _vm._m(0),
-              _vm._v(" "),
-              _c(
-                "select",
-                {
+                    staticClass: "col-2 col-form-label",
+                    attrs: { for: "product" }
+                  },
+                  [_vm._v("Product Name:")]
+                ),
+                _vm._v(" "),
+                _c("input", {
                   directives: [
                     {
                       name: "model",
                       rawName: "v-model",
-                      value: _vm.task.size,
-                      expression: "task.size"
+                      value: _vm.task.product,
+                      expression: "task.product"
                     }
                   ],
                   staticClass: "form-control",
+                  staticStyle: { "text-transform": "capitalize" },
+                  attrs: {
+                    type: "text",
+                    placeholder: "Enter Product Name",
+                    autofocus: ""
+                  },
+                  domProps: { value: _vm.task.product },
                   on: {
-                    change: function($event) {
-                      var $$selectedVal = Array.prototype.filter
-                        .call($event.target.options, function(o) {
-                          return o.selected
-                        })
-                        .map(function(o) {
-                          var val = "_value" in o ? o._value : o.value
-                          return val
-                        })
-                      _vm.$set(
-                        _vm.task,
-                        "size",
-                        $event.target.multiple
-                          ? $$selectedVal
-                          : $$selectedVal[0]
-                      )
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.task, "product", $event.target.value)
                     }
                   }
-                },
-                [
-                  _c("option", [_vm._v("1")]),
-                  _vm._v(" "),
-                  _c("option", [_vm._v("2")]),
-                  _vm._v(" "),
-                  _c("option", [_vm._v("3")]),
-                  _vm._v(" "),
-                  _c("option", [_vm._v("4")]),
-                  _vm._v(" "),
-                  _c("option", [_vm._v("5")]),
-                  _vm._v(" "),
-                  _c("option", [_vm._v("6")]),
-                  _vm._v(" "),
-                  _c("option", [_vm._v("7")]),
-                  _vm._v(" "),
-                  _c("option", [_vm._v("8")]),
-                  _vm._v(" "),
-                  _c("option", [_vm._v("9")]),
-                  _vm._v(" "),
-                  _c("option", [_vm._v("10+")])
-                ]
-              )
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "row" }, [
-            _c("div", { staticClass: "col-md-12" }, [
-              _c(
-                "label",
-                {
-                  staticClass: "col-2 col-form-label",
-                  attrs: { for: "input" }
-                },
-                [_vm._v("Phone Number: ")]
-              ),
-              _vm._v(" "),
-              _c("input", {
-                directives: [
+                })
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "row" }, [
+              _c("div", { staticClass: "col-md-12" }, [
+                _c(
+                  "label",
                   {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.task.phone,
-                    expression: "task.phone"
-                  }
-                ],
-                staticClass: "form-control",
-                attrs: { type: "tel" },
-                domProps: { value: _vm.task.phone },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
+                    staticClass: "col-2 col-form-label",
+                    attrs: { for: "quantity" }
+                  },
+                  [_vm._v("Quantity: ")]
+                ),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.task.quantity,
+                      expression: "task.quantity"
                     }
-                    _vm.$set(_vm.task, "phone", $event.target.value)
+                  ],
+                  staticClass: "form-control",
+                  attrs: { type: "tel", placeholder: "Enter Quantity" },
+                  domProps: { value: _vm.task.quantity },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.task, "quantity", $event.target.value)
+                    }
                   }
+                })
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "row" }, [
+              _c("div", { staticClass: "col-md-12" }, [
+                _c(
+                  "label",
+                  {
+                    staticClass: "col-2 col-form-label",
+                    attrs: { for: "price" }
+                  },
+                  [_vm._v("Price Per Unit: ")]
+                ),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.task.price,
+                      expression: "task.price"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: { type: "tel", placeholder: "Enter Price" },
+                  domProps: { value: _vm.task.price },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.task, "price", $event.target.value)
+                    }
+                  }
+                })
+              ])
+            ]),
+            _vm._v(" "),
+            _vm._m(0)
+          ]
+        ),
+        _vm._v(" "),
+        _c("div", { staticClass: "row marg" }, [
+          _c("div", { staticClass: "col-md-12" }, [
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.search,
+                  expression: "search"
                 }
-              })
-            ])
-          ]),
-          _vm._v(" "),
-          _vm._m(1)
-        ]
-      ),
-      _vm._v(" "),
-      _c("div", { staticClass: "row marg" }, [
-        _c("div", { staticClass: "col-md-12" }, [
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.search,
-                expression: "search"
-              }
-            ],
-            staticClass: "form-control",
-            attrs: { type: "search" },
-            domProps: { value: _vm.search },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
+              ],
+              staticClass: "form-control",
+              attrs: { placeholder: "Search By Product Name", type: "search" },
+              domProps: { value: _vm.search },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.search = $event.target.value
                 }
-                _vm.search = $event.target.value
               }
-            }
-          }),
-          _vm._v(" "),
+            })
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "row marg" }, [
           _c(
-            "button",
-            { staticClass: "btn btn-primary", attrs: { type: "submit" } },
-            [_vm._v("Search")]
-          )
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "row marg" }, [
-        _c(
-          "div",
-          { staticClass: "col-md-12" },
-          [
-            _c(
-              "transition-group",
-              { attrs: { name: "list", tag: "div" } },
-              _vm._l(_vm.searchIt, function(task, index) {
-                return _c(
-                  "span",
-                  { key: task, staticClass: "list-group-item item-list" },
-                  [
-                    _c(
-                      "button",
-                      {
-                        staticClass: "close",
-                        attrs: { type: "button", "aria-label": "Close" }
-                      },
-                      [
-                        _c(
-                          "span",
-                          {
-                            attrs: { "aria-hidden": "true" },
-                            on: {
-                              click: function($event) {
-                                _vm.deleteIt(task.id)
+            "div",
+            { staticClass: "col-md-12" },
+            [
+              _c(
+                "transition-group",
+                { attrs: { name: "list", tag: "div" } },
+                _vm._l(_vm.searchIt, function(task, index) {
+                  return _c(
+                    "span",
+                    { key: task, staticClass: "list-group-item item-list" },
+                    [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "close",
+                          attrs: { type: "button", "aria-label": "Close" }
+                        },
+                        [
+                          _c(
+                            "span",
+                            {
+                              attrs: { "aria-hidden": "true" },
+                              on: {
+                                click: function($event) {
+                                  _vm.deleteIt(task.id)
+                                }
                               }
-                            }
-                          },
-                          [_vm._v("×")]
-                        )
-                      ]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "label",
-                      {
-                        staticClass: "col-form-label",
-                        attrs: { for: "input" }
-                      },
-                      [
-                        _c("span", [_vm._v("Name:")]),
-                        _vm._v(" " + _vm._s(task.party))
-                      ]
-                    ),
-                    _vm._v(" "),
-                    _c("br"),
-                    _c(
-                      "label",
-                      {
-                        staticClass: "col-form-label",
-                        attrs: { for: "input" }
-                      },
-                      [_vm._v("Phone: " + _vm._s(task.phone))]
-                    ),
-                    _vm._v(" "),
-                    _c("br"),
-                    _c(
-                      "label",
-                      {
-                        staticClass: "col-form-label",
-                        attrs: { for: "input" }
-                      },
-                      [
-                        _vm._v("Size: "),
-                        _c("span", { staticClass: "badge" }, [
-                          _vm._v(_vm._s(task.size))
-                        ])
-                      ]
-                    ),
-                    _vm._v(" "),
-                    _c("br"),
-                    _c(
-                      "label",
-                      {
-                        staticClass: "col-form-label",
-                        attrs: { for: "input" }
-                      },
-                      [
-                        _vm._v("Since: "),
-                        _c("span", { staticClass: "badge" }, [
-                          _vm._v(
-                            _vm._s(
-                              _vm._f("moment")(task.created_at, "from", "now")
-                            )
+                            },
+                            [_vm._v("×")]
                           )
-                        ])
-                      ]
-                    )
-                  ]
-                )
-              })
-            )
-          ],
-          1
-        )
-      ])
-    ])
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "label",
+                        {
+                          staticClass: "row-form-label",
+                          attrs: { for: "input" }
+                        },
+                        [
+                          _c("span", [_vm._v("Name:")]),
+                          _vm._v(" " + _vm._s(task.product))
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c("br"),
+                      _c(
+                        "label",
+                        {
+                          staticClass: "row-form-label",
+                          attrs: { for: "input" }
+                        },
+                        [
+                          _vm._v("Quantity: "),
+                          _c("span", { staticClass: "badge" }, [
+                            _vm._v(_vm._s(task.quantity))
+                          ])
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c("br"),
+                      _c(
+                        "label",
+                        {
+                          staticClass: "row-form-label",
+                          attrs: { for: "input" }
+                        },
+                        [
+                          _vm._v("Price Per Unit: "),
+                          _c("span", { staticClass: "badge" }, [
+                            _vm._v("$" + _vm._s(task.price))
+                          ])
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c("br"),
+                      _c(
+                        "label",
+                        {
+                          staticClass: "row-form-label",
+                          attrs: { for: "input" }
+                        },
+                        [
+                          _vm._v("Created On: "),
+                          _c("span", { staticClass: "badge" }, [
+                            _vm._v(
+                              _vm._s(
+                                _vm._f("moment")(
+                                  task.created_at,
+                                  "MMMM Do, YYYY"
+                                )
+                              )
+                            )
+                          ])
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c("br"),
+                      _c(
+                        "label",
+                        {
+                          staticClass: "row-form-label",
+                          attrs: { for: "input" }
+                        },
+                        [
+                          _vm._v("Total: "),
+                          _c("span", { staticClass: "badge" }, [
+                            _vm._v("$" + _vm._s(task.total))
+                          ])
+                        ]
+                      )
+                    ]
+                  )
+                })
+              )
+            ],
+            1
+          )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "col-md-12" }, [
+            _c("span", { staticClass: "list-group-item item-list" }, [
+              _c("h1", [
+                _vm._v("Total Price of All Items: " + _vm._s(this.list.total))
+              ])
+            ])
+          ])
+        ])
+      ]
+    )
   ])
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("label", { attrs: { for: "size" } }, [
-      _c("strong", [_vm._v("Party Size:")])
-    ])
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -59521,7 +59508,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-344b3a0d", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-5ee2bfe3", module.exports)
   }
 }
 

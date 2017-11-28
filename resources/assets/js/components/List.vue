@@ -1,39 +1,27 @@
 <template>
   <div>
-<div  class="container main">
+<div  class="container main" style="margin-bottom: 15em;">
   <form action="#" @submit.prevent="addIt()">
     <div class="row">
       <div class="col-md-12 col-xs-12">
-                <label for="party" class="col-2 col-form-label">Party Name:</label>
-                <input v-model="task.party" type="text" placeholder="Enter Party Name" style="text-transform: capitalize;" class="form-control" autofocus>
+                <label for="product" class="col-2 col-form-label">Product Name:</label>
+                <input v-model="task.product" type="text" placeholder="Enter Product Name" style="text-transform: capitalize;" class="form-control" autofocus>
 
     </div>
   </div>
-  <div class="row">
-    <div class="col-md-12 col-xs-12">
-    <label for="size"><strong>Party Size:</strong></label>
-              <select class="form-control" v-model="task.size">
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
-                    <option>6</option>
-                    <option>7</option>
-                    <option>8</option>
-                    <option>9</option>
-                    <option>10+</option>
-                  </select>
-  </div>
-</div>
       <div class="row">
         <div class="col-md-12">
-          <label for="input" class="col-2 col-form-label">Phone Number: </label>
-          <input class="form-control" type="tel"   v-model="task.phone"> <!-- Figure out how to deal with form control -->
-          <!-- <input class="form-control input-medium bfh-phone" type="tel"  data-format="ddd-ddd-dddd" v-model="task.phone"> -->
-
+          <label for="quantity" class="col-2 col-form-label">Quantity: </label>
+          <input class="form-control" type="tel"  placeholder="Enter Quantity" v-model="task.quantity">
         </div>
       </div>
+      <div class="row">
+        <div class="col-md-12">
+          <label for="price" class="col-2 col-form-label">Price Per Unit: </label>
+          <input class="form-control" type="tel"  placeholder="Enter Price" v-model="task.price">
+        </div>
+      </div>
+
     <div class="row marg">
       <div class="col-md-12">
 
@@ -41,32 +29,37 @@
                   <button type="submit"  class="btn btn-primary">Add Info</button>
               </span>
           </div>
-
   </div>
   </form>
   <div class="row marg">
     <div class="col-md-12">
-      <input class="form-control" type="search" v-model="search">
-      <button type="submit"  class="btn btn-primary">Search</button>
+      <input class="form-control" placeholder="Search By Product Name" type="search" v-model="search">
     </div>
   </div>
   <div class="row marg">
     <div class="col-md-12">
       <transition-group name="list" tag="div">
-               <span class="list-group-item item-list" v-for="(task, index) in searchIt" :key='task'> <!--Or use with computed prop v-for="task in searchIt" -->
+               <span class="list-group-item item-list" v-for="(task, index) in searchIt" :key='task'>
 
                   <button type="button" class="close" aria-label="Close">
                     <span aria-hidden="true" @click="deleteIt(task.id)">&times;</span>
                   </button>
-                <label for="input" class="col-form-label"><span>Name:</span> {{task.party}}</label>
-                  <br><label for="input" class="col-form-label">Phone: {{task.phone}}</label>
-                  <br><label for="input" class="col-form-label">Size: <span class="badge">{{task.size}}</span></label>
-                  <br><label for="input" class="col-form-label">Since: <span class="badge">{{ task.created_at | moment("from", "now" ) }}</span></label>
+                <label for="input" class="row-form-label"><span>Name:</span> {{task.product}}</label>
+                <br><label for="input" class="row-form-label">Quantity: <span class="badge">{{task.quantity}}</span></label>
+                <br><label for="input" class="row-form-label">Price Per Unit: <span class="badge">${{task.price}}</span></label>
+                <br><label for="input" class="row-form-label">Created On: <span class="badge">{{ task.created_at | moment("MMMM Do, YYYY" ) }}</span></label>
+                <br><label for="input" class="row-form-label">Total: <span class="badge">${{task.total}}</span></label>
               </span>
       </transition-group>
     </div>
   </div>
-
+<div class="row">
+  <div class="col-md-12">
+    <span class="list-group-item item-list">
+      <h1>Total Price of All Items: {{this.list.total}}</h1>
+    </span>
+  </div>
+</div>
 
 </div>
 </div>
@@ -79,45 +72,43 @@
 
         data() {
             return {
+                final: 0,
                 search: '',
                 list: [],
                 task: {
-                    party: '',
-                    size: '',
-                    phone: '',
+                    product: '',
+                    quantity: '',
+                    price: '',
+                    total: '',
                     created_at: 0,
                 }
             };
           },
             created() {
             this.fetchIt();
+
       },
 
         methods: {
 
-        //   searchIt() {
-        //     axios.get('api/tasks').then((res) => {
-        //       for (var i of res.data) {
-        //         var players = i;
-        //         console.log(players);
-        //       }
-        //     });
-        // },
 
           fetchIt() {
                 axios.get('api/tasks').then((res) => {
                     this.list = res.data;
+
                     console.log('Fired');
 
                 });
             },
 
             addIt() {
-                axios.post('api/tasks', this.task)
+                axios.post('api/tasks', this.task, this.task.total = this.task.quantity * this.task.price,)
+
                     .then((res) => {
-                        this.task.party = '';
-                        this.task.size = '';
-                        this.task.phone = '';
+                        this.task.product = '';
+                        this.task.quantity = '';
+                        this.task.price = '';
+                        this.task.total = '';
                         this.fetchIt();
                     })
                     .catch((err) => console.error(err));
@@ -135,93 +126,11 @@
       computed: {
         searchIt: function() {
               return this.list.filter((task) => {
-              return task.party.toLowerCase().match(this.search.toLowerCase());
+              return task.product.toLowerCase().match(this.search.toLowerCase());
             });
-        }
-      }
-    }
+        },
+  }
+}
+
 
 </script>
-
-
-
-<!-- // for (var i of res.data) {
-//   var players = i;
-//   console.log(i);
-// });
-
-// return this.task.filter((task) => {
-// return task.party.match(this.temp);
-// } -->
-
-<!-- searchIt() {
-  axios.get('api/tasks').then((res) => {
-    for (var i of res.data) {
-      var players = i;
-      console.log(players);
-    }
-  });
-}, -->
-
-
-
-<!-- searchIt() {
-  axios.get('api/tasks').then((res) => {
-    for (var i of res.data) {
-      if (i.party.toLowerCase() == this.search.toLowerCase()) {
-        console.log('Match');
-        this.search = '';
-      } else {
-        console.log('No Match. Or it didnt work');
-        this.search = '';
-      }
-    }
-  }); -->
-
-<!-- searchIt() {
-  axios.get('api/tasks').then((res) => {
-    let len = res.data.length;
-    for (var i of res.data) {
-      console.log(i.party);
-    }
-  });
-}, -->
-
-<!-- if (res.task.party == this.search) {
-  console.log('Match');
-  this.search = '';
-} else {
-  console.log('No Match');
-  this.search = '';
-} -->
-
-
-
-<!-- computed: {
-  searchIt: function() {
-    axios.get('api/tasks').then((res) => {
-      this.list = res.data;
-  });
-      return this.task.filter((task) => {
-      return tasker.party.match(this.temp);
-   }); -->
-
-
-<!-- searchIt: function() {
-  return this.task.filter(function (tasks) {
-    return tasks === data.temp
-  });
-}, -->
-
-<!-- <transition-group name="list" tag="div">
-        <span class="list-group-item item-list" v-for="(task, index) in list" :key="index">
-
-            <button type="button" class="close" aria-label="Close">
-              <span aria-hidden="true" @click="deleteIt(task.id)">&times;</span>
-            </button>
-          <label for="input" class="col-form-label"><span>Name:</span> {{task.party}}</label>
-            <br><label for="input" class="col-form-label">Phone: {{task.phone}}</label>
-            <br><label for="input" class="col-form-label">Size: <span class="badge">{{task.size}}</span></label>
-            <br><label for="input" class="col-form-label">Since: <span class="badge">{{ task.created_at | moment("from", "now" ) }}</span></label>
-        </span>
-</transition-group> -->

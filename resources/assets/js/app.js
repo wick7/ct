@@ -16,7 +16,7 @@ Vue.use(require('vue-moment'));
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component('task-list', require('./components/List.vue'));
+Vue.component('product-list', require('./components/List.vue'));
 
 const app = new Vue({
     el: '#app'

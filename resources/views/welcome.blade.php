@@ -17,7 +17,7 @@
         <link href="https://fonts.googleapis.com/css?family=Vibur" rel="stylesheet">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
-        <link href="https://fonts.googleapis.com/css?family=Baloo" rel="stylesheet">
+
         <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
         {{-- <script  src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -86,26 +86,15 @@
 
     <div class="container">
       <div class="row">
-        <div class="col-lg-12 col-md-12 col-xs-12 text-center title">CODE PENNE</div>
+        <div class="col-lg-12 col-md-12 col-xs-12 text-center title main">Coalition Tech</div>
       </div>
-      <div class="row">
-        <div class="col-lg-12 col-md-12 col-xs-12 text-center waitL"><h1>wait list</h1></div>
-      </div>
-      {{-- <div class="row">
-        <div class="col-lg-12 col-md-12 col-xs-12 text-center main"><p>(password to remove entry = "x")<p></div>
-      </div> --}}
-      <hr>
-      <div class="row main">
-        <div class="col-lg-12 col-md-12 col-xs-12 text-center "><p>SIGN UP</p></div>
-      </div>
-      <hr>
-    </div>
+
 
 
     <div id="app">
 
 
-        <task-list></task-list>
+        <product-list></product-list>
 
     </div>
     <!-- Scripts -->
