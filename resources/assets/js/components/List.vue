@@ -56,7 +56,7 @@
 <div class="row">
   <div class="col-md-12">
     <span class="list-group-item item-list">
-      <h1>Total Price of All Items: {{this.list.total}}</h1>
+      <h1>Total Price of All Items: {{getTotal}}</h1>
     </span>
   </div>
 </div>
@@ -81,6 +81,7 @@
                     price: '',
                     total: '',
                     created_at: 0,
+
                 }
             };
           },
@@ -95,9 +96,16 @@
           fetchIt() {
                 axios.get('api/tasks').then((res) => {
                     this.list = res.data;
+                    var all_totals = res.data;
+                    var final = [];
+                    for ( var i in all_totals) {
+                        var totals = all_totals[i].total;
+                        final.push(totals);
+                    }
 
-                    console.log('Fired');
+                    var result = final.reduce((acc, cv) => acc + cv);
 
+                    console.log(result);
                 });
             },
 
@@ -129,8 +137,39 @@
               return task.product.toLowerCase().match(this.search.toLowerCase());
             });
         },
+
+        getTotal: function() {
+            var all_totals = this.list;
+            var final = [];
+            for (var i in all_totals) {
+                var totals = all_totals[i].total;
+                final.push(totals);
+                var result = final.reduce((acc, cv) => acc + cv);
+              }
+              return "$" + result;
+        },
   }
 }
 
 
 </script>
+
+
+<!-- getTotal: function() {
+    axios.get('api/tasks').then((res) => {
+        this.list = res.data;
+        var all_totals = res.data;
+        var final = [];
+        for ( var i in all_totals) {
+            var totals = all_totals[i].total;
+            final.push(totals);
+            var result = final.reduce((acc, cv) => acc + cv);
+        }
+
+        console.log(result);
+
+    }
+   res.result + "Money"
+);
+
+}, -->

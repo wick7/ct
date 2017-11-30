@@ -59130,6 +59130,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 price: '',
                 total: '',
                 created_at: 0
+
             }
         };
     },
@@ -59144,8 +59145,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             axios.get('api/tasks').then(function (res) {
                 _this.list = res.data;
+                var all_totals = res.data;
+                var final = [];
+                for (var i in all_totals) {
+                    var totals = all_totals[i].total;
+                    final.push(totals);
+                }
 
-                console.log('Fired');
+                var result = final.reduce(function (acc, cv) {
+                    return acc + cv;
+                });
+
+                console.log(result);
             });
         },
         addIt: function addIt() {
@@ -59178,6 +59189,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             return this.list.filter(function (task) {
                 return task.product.toLowerCase().match(_this4.search.toLowerCase());
             });
+        },
+
+        getTotal: function getTotal() {
+            var all_totals = this.list;
+            var final = [];
+            for (var i in all_totals) {
+                var totals = all_totals[i].total;
+                final.push(totals);
+                var result = final.reduce(function (acc, cv) {
+                    return acc + cv;
+                });
+            }
+            return "$" + result;
         }
     }
 });
@@ -59476,7 +59500,7 @@ var render = function() {
           _c("div", { staticClass: "col-md-12" }, [
             _c("span", { staticClass: "list-group-item item-list" }, [
               _c("h1", [
-                _vm._v("Total Price of All Items: " + _vm._s(this.list.total))
+                _vm._v("Total Price of All Items: " + _vm._s(_vm.getTotal))
               ])
             ])
           ])
